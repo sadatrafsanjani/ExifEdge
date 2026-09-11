@@ -3,9 +3,12 @@ const path = require('path')
 const { pathToFileURL } = require('url')
 const { exiftool } = require('exiftool-vendored')
 
+
+let mainWindow = null;
+
 function createWindow() {
 
-    const win = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         width: 1000,
         height: 650,
         webPreferences: {
@@ -18,12 +21,12 @@ function createWindow() {
 
     //win.webContents.openDevTools();
     Menu.setApplicationMenu(null);
-    win.loadFile('./app/index.html');
+    mainWindow.loadFile('./app/index.html');
 }
 
 ipcMain.handle('select-image', async () => {
 
-    const result = await dialog.showOpenDialog({
+    const result = await dialog.showOpenDialog(mainWindow, {
         properties: ['openFile'],
         filters: [
             {
@@ -60,7 +63,7 @@ ipcMain.handle('cancel-image', async () => {
 
 app.whenReady().then(() => {
 
-    createWindow()
+    createWindow();
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
@@ -70,6 +73,7 @@ app.whenReady().then(() => {
 })
 
 app.on('window-all-closed', () => {
+
     if (process.platform !== 'darwin') {
         app.quit()
     }
