@@ -1,0 +1,16 @@
+{
+  "name": "exifedge",
+  "version": "1.0.0",
+  "description": "advance exif remover",
+  "main": "./app/main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "sadat rafsanjani",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.3.8",
+    "electron": "^44.3.0",
+    "exiftool-vendored": "^38.0.1"
+  }
+}
