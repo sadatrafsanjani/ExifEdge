@@ -221,10 +221,13 @@ function classifyMetadata(metadata) {
 
 cleanButton.addEventListener('click', async () => {
 
-    const result = await window.electronAPI.cleanImage();
+    const result = await window.electronAPI.cleanImageV1();
 
     if (result) {
-        console.log('Clean image:', result)
+        console.log('Clean image:', result);
+    }
+    else{
+        console.error('Failed@')
     }
 })
 

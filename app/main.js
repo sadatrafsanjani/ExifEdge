@@ -2,9 +2,11 @@ const { app, BrowserWindow, dialog, ipcMain, Menu } = require('electron')
 const path = require('path')
 const { pathToFileURL } = require('url')
 const { exiftool } = require('exiftool-vendored')
+const fs = require('fs')
 
 
 let mainWindow = null;
+let selectedImagePath = null
 
 function createWindow() {
 
@@ -42,6 +44,7 @@ ipcMain.handle('select-image', async () => {
 
     const filePath = result.filePaths[0]
     const metadata = await exiftool.read(filePath)
+    selectedImagePath = filePath;
 
     return {
         url: pathToFileURL(filePath).href,
@@ -49,9 +52,36 @@ ipcMain.handle('select-image', async () => {
     }
 })
 
-ipcMain.handle('clean-image', async () => {
+ipcMain.handle('clean-image-v1', async () => {
 
     console.log("Clean");
+
+    if (!selectedImagePath) {
+        return false;
+    }
+
+    const directory = path.dirname(selectedImagePath)
+    const extension = path.extname(selectedImagePath)
+    const filename = path.basename(selectedImagePath, extension)
+
+    const outputPath = path.join(directory, `${filename}_clean${extension}`)
+
+    fs.copyFileSync(selectedImagePath, outputPath)
+
+    await exiftool.write(outputPath, {
+        All: null
+    })
+
+    const backupPath = `${outputPath}_original`;
+
+    if (fs.existsSync(backupPath)) {
+        fs.unlinkSync(backupPath)
+    }
+
+    return {
+        path: outputPath,
+        url: pathToFileURL(outputPath).href
+    }
 
     return true;
 })

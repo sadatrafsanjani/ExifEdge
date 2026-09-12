@@ -2,6 +2,6 @@ const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('electronAPI', {
     selectImage: () => ipcRenderer.invoke('select-image'),
-    cleanImage: () => ipcRenderer.invoke('clean-image'),
+    cleanImageV1: () => ipcRenderer.invoke('clean-image-v1'),
     cancelImage: () => ipcRenderer.invoke('cancel-image')
 })
