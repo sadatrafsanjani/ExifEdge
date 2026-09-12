@@ -3,7 +3,7 @@ const path = require('path')
 const { pathToFileURL } = require('url')
 const { exiftool } = require('exiftool-vendored')
 const fs = require('fs')
-
+const { removeImageMetadata } = require('./core/engine')
 
 let mainWindow = null;
 let selectedImagePath = null
@@ -19,7 +19,6 @@ function createWindow() {
             nodeIntegration: false
         }
     });
-
 
     //win.webContents.openDevTools();
     Menu.setApplicationMenu(null);
@@ -52,12 +51,10 @@ ipcMain.handle('select-image', async () => {
     }
 })
 
-ipcMain.handle('clean-image-v1', async () => {
-
-    console.log("Clean");
+ipcMain.handle('clean-image', async () => {
 
     if (!selectedImagePath) {
-        return false;
+        return null
     }
 
     const directory = path.dirname(selectedImagePath)
@@ -66,29 +63,17 @@ ipcMain.handle('clean-image-v1', async () => {
 
     const outputPath = path.join(directory, `${filename}_clean${extension}`)
 
-    fs.copyFileSync(selectedImagePath, outputPath)
-
-    await exiftool.write(outputPath, {
-        All: null
-    })
-
-    const backupPath = `${outputPath}_original`;
-
-    if (fs.existsSync(backupPath)) {
-        fs.unlinkSync(backupPath)
-    }
+    removeImageMetadata(selectedImagePath, outputPath)
 
     return {
         path: outputPath,
         url: pathToFileURL(outputPath).href
     }
-
-    return true;
 })
 
 ipcMain.handle('cancel-image', async () => {
 
-    console.log("Cancel");
+    selectedImagePath = null;
 })
 
 app.whenReady().then(() => {

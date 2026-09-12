@@ -3,6 +3,13 @@ const imagePreview = document.getElementById('imagePreview');
 const metadata = document.getElementById('metadata');
 const cleanButton = document.getElementById('cleanButton');
 const cancelButton = document.getElementById('cancelButton');
+const privacyRisk = document.getElementById('privacyRisk');
+
+const successToast = document.getElementById('successToast');
+const successToastInstance = bootstrap.Toast.getOrCreateInstance(successToast);
+
+const failToast = document.getElementById('failToast');
+const failToastInstance = bootstrap.Toast.getOrCreateInstance(failToast);
 
 selectButton.addEventListener('click', async () => {
 
@@ -18,7 +25,6 @@ selectButton.addEventListener('click', async () => {
     cancelButton.classList.remove('d-none');
     cleanButton.disabled = false;
     cancelButton.disabled = false;
-
 
     displayPrivacyRisk(image.metadata);
 
@@ -44,7 +50,7 @@ selectButton.addEventListener('click', async () => {
 function displayPrivacyRisk(metadata) {
 
     const counts = classifyMetadata(metadata)
-    const privacyRisk = document.getElementById('privacyRisk')
+
 
     privacyRisk.innerHTML = `
         <div class="fw-bold mb-2 border-bottom">Privacy Risk</div>
@@ -221,13 +227,18 @@ function classifyMetadata(metadata) {
 
 cleanButton.addEventListener('click', async () => {
 
-    const result = await window.electronAPI.cleanImageV1();
+    const result = await window.electronAPI.cleanImage();
 
     if (result) {
-        console.log('Clean image:', result);
+
+        console.log('Image Clean Successful!', result);
+
+        successToastInstance.show();
+
     }
     else{
-        console.error('Failed@')
+        console.error('Failed!');
+        failToastInstance.show();
     }
 })
 
@@ -235,4 +246,16 @@ cleanButton.addEventListener('click', async () => {
 cancelButton.addEventListener('click', async () => {
 
     await window.electronAPI.cancelImage();
+
+    imagePreview.src = '';
+    imagePreview.classList.add('d-none');
+
+    metadata.innerText = '';
+    privacyRisk.innerHTML = ``;
+
+    cleanButton.classList.add('d-none');
+    cleanButton.disabled = true;
+
+    cancelButton.classList.add('d-none');
+    cancelButton.disabled = true;
 })
