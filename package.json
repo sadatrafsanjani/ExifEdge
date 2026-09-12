@@ -1,16 +1,24 @@
 {
-  "name": "exifedge",
+  "name": "ExifEdge",
   "version": "1.0.0",
-  "description": "advance exif remover",
+  "description": "Advance exif removal tool",
   "main": "./app/main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish"
   },
-  "author": "sadat rafsanjani",
-  "license": "ISC",
+  "author": "Sadat Rafsanjani",
+  "license": "MIT",
   "dependencies": {
     "bootstrap": "^5.3.8",
-    "electron": "^44.3.0",
     "exiftool-vendored": "^38.0.1"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.11.2",
+    "@electron-forge/maker-squirrel": "^7.11.2",
+    "@electron-forge/publisher-github": "^7.11.2",
+    "electron": "^44.3.0"
   }
 }

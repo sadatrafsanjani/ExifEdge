@@ -4,28 +4,35 @@
         <meta charset="UTF-8" />
         <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' file: data:; script-src 'self'; style-src 'self' 'unsafe-inline';" />
         <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="../assets/css/style.css" />
         <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <title>ExifEdge</title>
     </head>
     <body>
         <div class="container-fluid p-4 vh-100 overflow-hidden">
 
+            <!-- TOAST -->
             <div class="toast-container position-fixed bottom-0 end-0 p-3">
+
+                <!-- SUCCESS TOAST -->
                 <div id="successToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
                     <div class="toast-header bg-success">
                         <strong class="me-auto text-light">Success</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                     <div class="toast-body">Image cleaned successfully.</div>
-                </div>
+                </div><!-- SUCCESS TOAST END -->
+
+                <!-- FAIL TOAST -->
                 <div id="failToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
                     <div class="toast-header bg-danger">
                         <strong class="me-auto text-light">Failed!</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                     <div class="toast-body">Image cleaned failed!</div>
-                </div>
-            </div>
+                </div><!-- FAIL TOAST END -->
+
+            </div><!-- TOAST END -->
 
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1 class="h3 mb-0">ExifEdge</h1>
@@ -34,14 +41,14 @@
 
             <div class="row g-4" style="height: calc(100vh - 120px);">
 
-                <!-- Image -->
+                <!-- LEFT IMAGE VIEWER -->
                 <div class="col-md-4 h-100">
                     <div class="card h-100">
                         <div class="card-header bg-primary text-light">Image</div>
                         <div class="card-body d-flex flex-column" style="min-height: 450px;">
                             <div class="row">
                                 <div id="imageContainer" class="col-md-12 text-center">
-                                    <img id="imagePreview" class="img-fluid d-none" style="max-width: 80%;" />
+                                    <img id="imagePreview" class="img-fluid d-none" style="max-width: 80%;" alt="Image Preview" />
                                     <div id="imageName" class="small text-secondary mt-2 d-none fw-bold"></div>
                                 </div>
                             </div>
@@ -55,9 +62,9 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div><!-- LEFT IMAGE VIEWER END -->
 
-                <!-- Metadata -->
+                <!-- RIGHT METADATA VIEWER -->
                 <div class="col-md-8 h-100">
                     <div class="card h-100">
                         <div class="card-header bg-primary text-light">Metadata</div>
@@ -65,7 +72,7 @@
                             <div id="metadata" class="font-monospace small text-secondary"></div>
                         </div>
                     </div>
-                </div>
+                </div><!-- RIGHT METADATA VIEWER END -->
             </div>
 
         </div>

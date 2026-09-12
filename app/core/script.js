@@ -20,6 +20,11 @@ selectButton.addEventListener('click', async () => {
         return
     }
 
+    if (image.error) {
+        alert(image.error);
+        return
+    }
+
     imagePreview.src = image.url;
     imageName.classList.remove('d-none');
     imageName.textContent = new URL(image.url).pathname.split('/').pop();
@@ -235,7 +240,6 @@ cleanButton.addEventListener('click', async () => {
     if (result) {
 
         console.log('Image Clean Successful!', result.path);
-
         successToastInstance.show();
 
     }
