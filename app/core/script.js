@@ -1,5 +1,6 @@
 const selectButton = document.getElementById('selectButton');
 const imagePreview = document.getElementById('imagePreview');
+const imageName = document.getElementById('imageName');
 const metadata = document.getElementById('metadata');
 const cleanButton = document.getElementById('cleanButton');
 const cancelButton = document.getElementById('cancelButton');
@@ -20,6 +21,9 @@ selectButton.addEventListener('click', async () => {
     }
 
     imagePreview.src = image.url;
+    imageName.classList.remove('d-none');
+    imageName.textContent = new URL(image.url).pathname.split('/').pop();
+
     imagePreview.classList.remove('d-none');
     cleanButton.classList.remove('d-none');
     cancelButton.classList.remove('d-none');
@@ -50,7 +54,6 @@ selectButton.addEventListener('click', async () => {
 function displayPrivacyRisk(metadata) {
 
     const counts = classifyMetadata(metadata)
-
 
     privacyRisk.innerHTML = `
         <div class="fw-bold mb-2 border-bottom">Privacy Risk</div>
@@ -231,7 +234,7 @@ cleanButton.addEventListener('click', async () => {
 
     if (result) {
 
-        console.log('Image Clean Successful!', result);
+        console.log('Image Clean Successful!', result.path);
 
         successToastInstance.show();
 
@@ -249,6 +252,9 @@ cancelButton.addEventListener('click', async () => {
 
     imagePreview.src = '';
     imagePreview.classList.add('d-none');
+
+    imageName.classList.add('d-none');
+    imageName.textContent = '';
 
     metadata.innerText = '';
     privacyRisk.innerHTML = ``;
