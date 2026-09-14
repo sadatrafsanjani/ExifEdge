@@ -1,3 +1,7 @@
+if (require('electron-squirrel-startup')) {
+    return;
+}
+
 const { app, BrowserWindow, dialog, ipcMain, Menu } = require('electron')
 const path = require('path')
 const { pathToFileURL } = require('url')

@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "bootstrap": "^5.3.8",
+    "electron-squirrel-startup": "^1.0.1",
     "exiftool-vendored": "^38.0.1"
   },
   "devDependencies": {

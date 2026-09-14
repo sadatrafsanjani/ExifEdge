@@ -1,0 +1,53 @@
+# Privacy Policy for ExifEdge
+
+**Effective date: September 14, 2026**
+
+ExifEdge is an Electron desktop application developed by Sadat Rafsanjani. This Privacy Policy explains how ExifEdge handles information when you use the application.
+
+## Information Collected
+
+ExifEdge is designed to process JPG and PNG image metadata on your device. The application does not require an account.
+
+ExifEdge does not intentionally collect or transmit your image contents or image metadata. If a future optional feature is introduced that does so, it will be separately enabled by you and described in an updated privacy notice.
+
+## Local Processing
+
+When you view, inspect, or remove metadata using ExifEdge, the relevant processing occurs locally on your computer. Your images and their metadata are handled by the application on your device for the purpose of providing the requested functionality.
+
+## File Access
+
+ExifEdge accesses only the files and locations you select or otherwise explicitly provide to the application. This access is used to read image metadata, display relevant information, and, when requested, create or update a local image file with metadata removed.
+
+You remain responsible for choosing the files you open and for reviewing the destination and overwrite options offered by the application before completing an operation.
+
+## Third-Party Services and Dependencies
+
+ExifEdge may rely on third-party software libraries and dependencies to provide desktop application and image-processing functionality. These components may be governed by their own licenses and privacy practices.
+
+This policy does not make claims about the independent practices of third parties. Review the applicable documentation and policies for any third-party products or services you choose to use with ExifEdge.
+
+## Data Retention
+
+ExifEdge does not intentionally retain copies of your images or their metadata beyond what is needed for the local operation you request. Files you save or modify remain on your device and are subject to your device, operating system, backup, and storage settings.
+
+## Security
+
+Processing images locally helps keep them under your control. However, no software or device can guarantee absolute security. Keep your operating system and ExifEdge updated, use appropriate device security measures, and maintain backups of important files before modifying or removing metadata.
+
+## Children's Privacy
+
+ExifEdge is not directed to children under 13, and it does not require accounts or intentionally collect personal information from children. If you believe personal information has been provided to ExifEdge contrary to this policy, please contact the developer.
+
+## Changes to This Privacy Policy
+
+This Privacy Policy may be updated to reflect changes to ExifEdge or applicable requirements. The effective date at the top of this document indicates when it was last updated. Continued use of ExifEdge after an update means you should review the revised policy.
+
+## Contact
+
+For questions about this Privacy Policy or ExifEdge's privacy practices, contact:
+
+Sadat Rafsanjani
+
+## Disclaimer
+
+This document is provided for general informational purposes and is not legal advice. Privacy obligations can vary by location, distribution platform, and the features included in a particular version of ExifEdge. Consider obtaining qualified legal advice before relying on this policy for compliance purposes.

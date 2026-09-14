@@ -28,6 +28,8 @@ desktop.ini
 # Temporary files
 *.tmp
 *.temp
+*.pfx
+*.py
 
 # ExifEdge generated/test files
 output/

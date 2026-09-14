@@ -1,14 +1,18 @@
 module.exports = {
     packagerConfig: {
-        asar: true,
-        icon: './assets/icon'
+        asar: {
+            unpack: '**/node_modules/exiftool-vendored*/**'
+        },
+        icon: './assets/icon.ico'
     },
 
     makers: [
         {
             name: '@electron-forge/maker-squirrel',
             config: {
-                name: 'exifedge'
+                name: 'exifedge',
+                setupIcon: './assets/icon.ico',
+                iconUrl: 'https://raw.githubusercontent.com/sadatarfsanjani/ExifEdge/main/assets/icon.ico'
             }
         }
     ],
@@ -24,4 +28,4 @@ module.exports = {
             }
         }
     ]
-}
+};
