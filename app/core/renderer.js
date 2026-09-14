@@ -58,6 +58,8 @@ selectButton.addEventListener('click', async () => {
     }
 
     displayPrivacyRisk(result.metadata);
+    displayAIGeneratedStatus(result.metadata);
+
     metadata.textContent = '';
 
     Object.entries(result.metadata).forEach(([key, value]) => {
@@ -67,12 +69,17 @@ selectButton.addEventListener('click', async () => {
 
         const displayValue = typeof value === 'object' ? JSON.stringify(value) : value
 
-        row.innerHTML = `
-            <strong>${key}:</strong>
-            <span>${displayValue}</span>
-        `
-        metadata.appendChild(row)
+        if (!['SourceFile', 'errors', 'ExifToolVersion'].includes(key)) {
+
+            row.innerHTML = `
+                <strong>${key}:</strong>
+                <span>${displayValue}</span>
+            `
+
+            metadata.appendChild(row)
+        }
     })
+
 })
 
 
@@ -290,3 +297,26 @@ cancelButton.addEventListener('click', async () => {
     cancelButton.classList.add('d-none');
     cancelButton.disabled = true;
 })
+
+
+function displayAIGeneratedStatus(metadata) {
+
+    const overlay = document.getElementById('aiGeneratedOverlay')
+
+    const json = JSON.stringify(metadata).toLowerCase()
+
+    const aiGenerated =
+        json.includes('c2pa') ||
+        json.includes('trainedalgorithmicmedia') ||
+        json.includes('grok imagine') ||
+        json.includes('jumbf manifest') ||
+        json.includes('contentcredentials') ||
+        json.includes('claim_generator_info')
+
+    if (aiGenerated) {
+        overlay.classList.remove('d-none')
+    }
+    else {
+        overlay.classList.add('d-none')
+    }
+}
