@@ -11,32 +11,9 @@
     <body>
         <div class="container-fluid p-4 vh-100 overflow-hidden">
 
-            <!-- TOAST -->
-            <div class="toast-container position-fixed bottom-0 end-0 p-3">
-
-                <!-- SUCCESS TOAST -->
-                <div id="successToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                    <div class="toast-header bg-success">
-                        <strong class="me-auto text-light">Success</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </div>
-                    <div class="toast-body">Image cleaned successfully.</div>
-                </div><!-- SUCCESS TOAST END -->
-
-                <!-- FAIL TOAST -->
-                <div id="failToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                    <div class="toast-header bg-danger">
-                        <strong class="me-auto text-light">Failed!</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </div>
-                    <div class="toast-body">Image cleaned failed!</div>
-                </div><!-- FAIL TOAST END -->
-
-            </div><!-- TOAST END -->
-
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1 class="h3 mb-0">ExifEdge</h1>
-                <button id="selectButton" class="btn btn-primary">Browse</button>
+                <button id="selectButton" class="btn btn-outline-primary">Browse</button>
             </div>
 
             <div class="row g-4" style="height: calc(100vh - 120px);">
@@ -53,12 +30,13 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <!-- PRIVACY VIEWER -->
                                 <div id="privacyRisk" class="mt-3 col-md-12">
-                                </div>
+                                </div><!-- PRIVACY VIEWER END -->
                             </div>
                             <div class="mt-auto">
-                                <button id="cleanButton" class="btn btn-success d-none" disabled>Clean</button>
-                                <button id="cancelButton" class="btn btn-danger d-none" disabled>Cancel</button>
+                                <button id="cleanButton" class="btn btn-outline-success d-none" disabled>Clean</button>
+                                <button id="cancelButton" class="btn btn-outline-danger d-none" disabled>Cancel</button>
                             </div>
                         </div>
                     </div>
@@ -75,7 +53,39 @@
                 </div><!-- RIGHT METADATA VIEWER END -->
             </div>
 
+            <!-- TOAST -->
+            <div class="toast-container position-fixed bottom-0 end-0 p-3">
+
+                <!-- SUCCESS TOAST -->
+                <div id="successToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header bg-success">
+                        <strong class="me-auto text-light">Success</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body bg-success text-light">Image cleaned successfully.</div>
+                </div><!-- SUCCESS TOAST END -->
+
+                <!-- FAIL TOAST -->
+                <div id="failToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header bg-danger">
+                        <strong class="me-auto text-light">Failed!</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body bg-danger text-light">Image cleaned failed!</div>
+                </div><!-- FAIL TOAST END -->
+
+                <!-- FAIL IMAGE LOAD TOAST -->
+                <div id="failImageLoadingToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header bg-danger">
+                        <strong class="me-auto text-light">Failed!</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body bg-danger text-light">Image loading failed!</div>
+                </div><!-- FAIL IMAGE LOAD TOAST END -->
+
+            </div><!-- TOAST END -->
+
         </div>
-        <script src="core/script.js"></script>
+        <script src="core/renderer.js"></script>
     </body>
 </html>

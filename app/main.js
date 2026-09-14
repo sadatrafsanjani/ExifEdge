@@ -1,9 +1,8 @@
 const { app, BrowserWindow, dialog, ipcMain, Menu } = require('electron')
 const path = require('path')
 const { pathToFileURL } = require('url')
-const { exiftool } = require('exiftool-vendored')
-const fs = require('fs')
-const { removeImageMetadata } = require('./core/engine')
+const { removeImageMetadata, isSupportedImage } = require('./core/engine')
+const { Worker } = require('worker_threads')
 
 let mainWindow = null;
 let selectedImagePath = null
@@ -22,9 +21,9 @@ function createWindow() {
     });
 
     //win.webContents.openDevTools();
-    Menu.setApplicationMenu(null);
     mainWindow.loadFile('./app/index.html');
 }
+
 
 ipcMain.handle('select-image', async () => {
 
@@ -51,12 +50,10 @@ ipcMain.handle('select-image', async () => {
         }
     }
 
-    const metadata = await exiftool.read(filePath);
     selectedImagePath = filePath;
 
     return {
-        url: pathToFileURL(filePath).href,
-        metadata: metadata
+        url: pathToFileURL(filePath).href
     }
 })
 
@@ -82,12 +79,17 @@ ipcMain.handle('clean-image', async () => {
 
 ipcMain.handle('cancel-image', async () => {
 
+    if (!selectedImagePath) {
+        return null
+    }
+
     selectedImagePath = null;
 })
 
 app.whenReady().then(() => {
 
     createWindow();
+    Menu.setApplicationMenu(null);
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
@@ -103,26 +105,32 @@ app.on('window-all-closed', () => {
     }
 })
 
+ipcMain.handle('read-metadata', async () => {
 
-function isSupportedImage(filePath) {
+    if (!selectedImagePath) {
+        return null
+    }
 
-    const buffer = fs.readFileSync(filePath)
+    return new Promise((resolve) => {
 
-    const isJpeg =
-        buffer.length >= 2 &&
-        buffer[0] === 0xFF &&
-        buffer[1] === 0xD8
+        const worker = new Worker(
+            path.join(__dirname, './worker/metadata.js'),
+            {
+                workerData: {
+                    filePath: selectedImagePath
+                }
+            }
+        )
 
-    const isPng =
-        buffer.length >= 8 &&
-        buffer[0] === 0x89 &&
-        buffer[1] === 0x50 &&
-        buffer[2] === 0x4E &&
-        buffer[3] === 0x47 &&
-        buffer[4] === 0x0D &&
-        buffer[5] === 0x0A &&
-        buffer[6] === 0x1A &&
-        buffer[7] === 0x0A
+        worker.once('message', (result) => {
+            resolve(result)
+        })
 
-    return isJpeg || isPng
-}
+        worker.once('error', (error) => {
+            resolve({
+                success: false,
+                error: error.message
+            })
+        })
+    })
+})

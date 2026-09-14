@@ -27,6 +27,7 @@ function isJpeg(buffer) {
 }
 
 function isPng(buffer) {
+
     return (
         buffer.length >= 8 &&
         buffer[0] === 0x89 &&
@@ -41,6 +42,7 @@ function isPng(buffer) {
 }
 
 function sanitizeJpeg(buffer, outputPath) {
+
     const output = []
 
     // JPEG Start Of Image
@@ -126,19 +128,11 @@ function sanitizeJpeg(buffer, outputPath) {
         offset = segmentEnd
     }
 
-    fs.writeFileSync(
-        outputPath,
-        Buffer.concat(output)
-    )
+    fs.writeFileSync(outputPath, Buffer.concat(output))
 }
 
-function shouldKeepJpegSegment(
-    marker,
-    buffer,
-    dataStart,
-    segmentEnd
-) {
-    // APP0
+function shouldKeepJpegSegment(marker, buffer, dataStart, segmentEnd) {
+
     if (marker === 0xE0) {
         return isJfifSegment(
             buffer,
@@ -147,7 +141,6 @@ function shouldKeepJpegSegment(
         )
     }
 
-    // APP2 - preserve only ICC color profiles.
     if (marker === 0xE2) {
         return isIccProfileSegment(
             buffer,
@@ -156,7 +149,6 @@ function shouldKeepJpegSegment(
         )
     }
 
-    // APP14 Adobe segment can affect JPEG rendering.
     if (marker === 0xEE) {
         return isAdobeSegment(
             buffer,
@@ -165,20 +157,7 @@ function shouldKeepJpegSegment(
         )
     }
 
-    // Remove:
-    // APP1  -> EXIF / XMP
-    // APP3  -> application metadata
-    // APP4  -> application metadata
-    // APP5  -> application metadata
-    // APP6  -> application metadata
-    // APP7  -> application metadata
-    // APP8  -> application metadata
-    // APP9  -> application metadata
-    // APP10 -> application metadata
-    // APP11 -> JUMBF / C2PA
-    // APP12 -> application metadata
-    // APP13 -> IPTC / Photoshop
-    // APP15 -> application metadata
+
     if (marker >= 0xE1 && marker <= 0xED) {
         return false
     }
@@ -187,17 +166,15 @@ function shouldKeepJpegSegment(
         return false
     }
 
-    // JPEG COM
     if (marker === 0xFE) {
         return false
     }
 
-    // Keep all JPEG structural/image coding segments:
-    // DQT, DHT, DRI, SOF*, etc.
     return true
 }
 
 function isJfifSegment(buffer, dataStart, segmentEnd) {
+
     const identifier = Buffer.from('JFIF\0')
 
     if (dataStart + identifier.length > segmentEnd) {
@@ -308,7 +285,7 @@ function sanitizePng(buffer, outputPath) {
 }
 
 function shouldKeepPngChunk(type) {
-    // Required image/rendering information
+
     if (
         type === 'PLTE' ||
         type === 'tRNS' ||
@@ -325,6 +302,30 @@ function shouldKeepPngChunk(type) {
     return false
 }
 
+function isSupportedImage(filePath) {
+
+    const buffer = fs.readFileSync(filePath)
+
+    const isJpeg =
+        buffer.length >= 2 &&
+        buffer[0] === 0xFF &&
+        buffer[1] === 0xD8
+
+    const isPng =
+        buffer.length >= 8 &&
+        buffer[0] === 0x89 &&
+        buffer[1] === 0x50 &&
+        buffer[2] === 0x4E &&
+        buffer[3] === 0x47 &&
+        buffer[4] === 0x0D &&
+        buffer[5] === 0x0A &&
+        buffer[6] === 0x1A &&
+        buffer[7] === 0x0A
+
+    return isJpeg || isPng
+}
+
 module.exports = {
+    isSupportedImage,
     removeImageMetadata
 }

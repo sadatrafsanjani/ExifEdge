@@ -12,34 +12,55 @@ const successToastInstance = bootstrap.Toast.getOrCreateInstance(successToast);
 const failToast = document.getElementById('failToast');
 const failToastInstance = bootstrap.Toast.getOrCreateInstance(failToast);
 
+const failImageLoadingToast = document.getElementById('failImageLoadingToast');
+const failImageLoadingToastInstance = bootstrap.Toast.getOrCreateInstance(failImageLoadingToast);
+
+
 selectButton.addEventListener('click', async () => {
 
     const image = await window.electronAPI.selectImage()
 
     if (!image) {
+
+        console.error('Image not found!');
+
         return
     }
 
     if (image.error) {
-        alert(image.error);
+
+        console.error(image.error);
+        failImageLoadingToastInstance.show();
+
         return
     }
 
     imagePreview.src = image.url;
+    imagePreview.classList.remove('d-none');
     imageName.classList.remove('d-none');
     imageName.textContent = new URL(image.url).pathname.split('/').pop();
 
-    imagePreview.classList.remove('d-none');
     cleanButton.classList.remove('d-none');
     cancelButton.classList.remove('d-none');
     cleanButton.disabled = false;
     cancelButton.disabled = false;
 
-    displayPrivacyRisk(image.metadata);
+    metadata.textContent = 'Reading metadata...';
+    privacyRisk.innerHTML = '';
 
-    metadata.innerHTML = ''
+    const result = await window.electronAPI.readMetadata()
 
-    Object.entries(image.metadata).forEach(([key, value]) => {
+    if (!result || !result.success) {
+
+        metadata.textContent = 'Unable to read metadata.'
+
+        return
+    }
+
+    displayPrivacyRisk(result.metadata);
+    metadata.textContent = '';
+
+    Object.entries(result.metadata).forEach(([key, value]) => {
 
         const row = document.createElement('div')
         row.className = 'mb-2'
@@ -50,7 +71,6 @@ selectButton.addEventListener('click', async () => {
             <strong>${key}:</strong>
             <span>${displayValue}</span>
         `
-
         metadata.appendChild(row)
     })
 })
@@ -116,6 +136,7 @@ function classifyMetadata(metadata) {
     }
 
     for (const [key, value] of Object.entries(metadata)) {
+
         const k = key.toLowerCase()
 
         // Location
