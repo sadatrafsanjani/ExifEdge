@@ -5,7 +5,7 @@ if (require('electron-squirrel-startup')) {
 const { app, BrowserWindow, dialog, ipcMain, Menu } = require('electron')
 const path = require('path')
 const { pathToFileURL } = require('url')
-const { removeImageMetadata, isSupportedImage } = require('./core/engine')
+const { removeImageMetadata, isSupportedImage } = require('./core/metaremover')
 const { Worker } = require('worker_threads')
 
 let mainWindow = null;

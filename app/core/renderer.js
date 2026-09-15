@@ -5,6 +5,7 @@ const metadata = document.getElementById('metadata');
 const cleanButton = document.getElementById('cleanButton');
 const cancelButton = document.getElementById('cancelButton');
 const privacyRisk = document.getElementById('privacyRisk');
+const overlay = document.getElementById('aiGeneratedOverlay');
 
 const successToast = document.getElementById('successToast');
 const successToastInstance = bootstrap.Toast.getOrCreateInstance(successToast);
@@ -21,9 +22,6 @@ selectButton.addEventListener('click', async () => {
     const image = await window.electronAPI.selectImage()
 
     if (!image) {
-
-        console.error('Image not found!');
-
         return
     }
 
@@ -69,7 +67,7 @@ selectButton.addEventListener('click', async () => {
 
         const displayValue = typeof value === 'object' ? JSON.stringify(value) : value
 
-        if (!['SourceFile', 'errors', 'ExifToolVersion'].includes(key)) {
+        if (!['SourceFile', 'errors', 'ExifToolVersion', 'FilePermissions', 'Directory'].includes(key)) {
 
             row.innerHTML = `
                 <strong>${key}:</strong>
@@ -287,6 +285,7 @@ cancelButton.addEventListener('click', async () => {
 
     imageName.classList.add('d-none');
     imageName.textContent = '';
+    overlay.classList.add('d-none');
 
     metadata.innerText = '';
     privacyRisk.innerHTML = ``;
@@ -300,8 +299,6 @@ cancelButton.addEventListener('click', async () => {
 
 
 function displayAIGeneratedStatus(metadata) {
-
-    const overlay = document.getElementById('aiGeneratedOverlay')
 
     const json = JSON.stringify(metadata).toLowerCase()
 
