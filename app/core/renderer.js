@@ -110,13 +110,13 @@ function displayPrivacyRisk(metadata) {
             </div>
 
             <div class="d-flex justify-content-between">
-                <span>🟠 Software / History</span>
-                <span>${counts['Software / History']} items</span>
+                <span>🟠 History</span>
+                <span>${counts.History} items</span>
             </div>
 
             <div class="d-flex justify-content-between">
-                <span>🟠 AI / Provenance</span>
-                <span>${counts['AI / Provenance']} items</span>
+                <span>🟠 AI</span>
+                <span>${counts.AI} items</span>
             </div>
 
             <div class="d-flex justify-content-between">
@@ -135,8 +135,8 @@ function classifyMetadata(metadata) {
         Device: 0,
         Identity: 0,
         Time: 0,
-        'Software / History': 0,
-        'AI / Provenance': 0,
+        History: 0,
+        AI: 0,
         Other: 0
     }
 
@@ -216,7 +216,7 @@ function classifyMetadata(metadata) {
             k.includes('application') ||
             k.includes('xmp toolkit')
         ) {
-            counts['Software / History']++
+            counts.History++
             continue
         }
 
@@ -234,7 +234,7 @@ function classifyMetadata(metadata) {
             k === 'signature' ||
             (k === 'name' && String(value).toLowerCase() === 'jumbf manifest')
         ) {
-            counts['AI / Provenance']++
+            counts.AI++
             continue
         }
 

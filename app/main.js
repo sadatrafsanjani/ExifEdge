@@ -117,24 +117,44 @@ ipcMain.handle('read-metadata', async () => {
 
     return new Promise((resolve) => {
 
-        const worker = new Worker(
-            path.join(__dirname, './worker/metadata.js'),
-            {
-                workerData: {
-                    filePath: selectedImagePath
+        let settled = false
+        const settle = (result) => {
+            if (settled) return
+            settled = true
+            resolve(result)
+        }
+
+        let worker
+        try {
+            worker = new Worker(
+                path.join(__dirname, './worker/metadata-worker.js'),
+                {
+                    workerData: {
+                        filePath: selectedImagePath
+                    }
                 }
-            }
-        )
+            )
+        }
+        catch (error) {
+            settle({ success: false, error: error.message })
+            return
+        }
 
         worker.once('message', (result) => {
-            resolve(result)
+            settle(result)
+            worker.terminate()
         })
 
         worker.once('error', (error) => {
-            resolve({
-                success: false,
-                error: error.message
-            })
+            settle({ success: false, error: error.message })
+            worker.terminate()
+        })
+
+        worker.once('exit', (code) => {
+
+            if (code !== 0) {
+                settle({ success: false, error: `Worker stopped unexpectedly (exit code ${code})` })
+            }
         })
     })
 })
