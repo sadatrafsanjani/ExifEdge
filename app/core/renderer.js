@@ -73,7 +73,6 @@ selectButton.addEventListener('click', async () => {
                 <strong>${key}:</strong>
                 <span>${displayValue}</span>
             `
-
             metadata.appendChild(row)
         }
     })

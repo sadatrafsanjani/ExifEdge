@@ -1,7 +1,5 @@
 const { parentPort, workerData } = require('worker_threads')
 const { exiftool } = require('exiftool-vendored')
-const { readImageMetadata, detectAIGenerated } = require('../core/metareader');
-
 
 class MetadataWorker{
 
@@ -12,8 +10,6 @@ class MetadataWorker{
     async read() {
 
         try {
-            // const metadata = readImageMetadata(this.filePath);
-            // const aiDetection = detectAIGenerated(metadata);
 
             const metadata = await exiftool.read(this.filePath);
 

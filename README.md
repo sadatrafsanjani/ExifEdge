@@ -7,7 +7,8 @@ The development is in progress. The first version will be released very soon.
 
 ## Visual
 
-![ExifEdge](screenshots/ExifEdge.png)
+![ExifEdge](screenshots/screenshot-1.png)
+![ExifEdge](screenshots/screenshot-2.png)
 
 ## Supported Formats
 
@@ -17,6 +18,7 @@ The development is in progress. The first version will be released very soon.
 ## Current Features
 
 - Select JPEG and PNG images
+- AI generated image identification
 - Analyze image metadata
 - Display detected metadata
 - Classify metadata by privacy risk
@@ -24,33 +26,16 @@ The development is in progress. The first version will be released very soon.
 - Identify location, device, identity, time, software/history, AI/provenance, and other privacy metadata
 - Remove privacy-sensitive metadata
 - Save a clean copy without modifying the original image
-- Verify that removed metadata is no longer present
 
 ## Planned Features
 
-- Complete JPEG metadata parser
-- Complete PNG metadata parser
-- EXIF metadata removal
-- GPS/location data removal
-- Camera and device information removal
-- Personal identity metadata removal
-- Timestamp removal
-- Software and editing-history removal
-- IPTC metadata removal
-- XMP metadata removal
-- JPEG comments removal
-- PNG metadata chunk removal
-- AI-generated image metadata removal
-- C2PA / Content Credentials removal
-- Embedded preview and thumbnail metadata removal
-- Privacy-risk scoring
-- Detailed sanitization report
-- Before/after metadata comparison
-- Sanitization verification
+- Human face obscuring
+- Credit card obscuring
+- Vehicle numberplate obscuring
+- ID card obscuring
 - Batch image processing
 - Drag-and-drop image support
 - Output folder selection
-- Processing history
 - Additional image formats in future versions
 
 ## Development
